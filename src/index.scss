@@ -1,10 +1,30 @@
 
 
 body {
-  margin: 0;
-  display: flex;
+ 
   font-family: "Varela Round";
+  margin:0;
+  padding:0;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical{
+  display:flex;
+  flex-direction: columnn;
+}
+
+.distributed{
+
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
 
 .verticalElements{
 
@@ -21,4 +41,15 @@ body {
   flex-direction: row; 
   align-items: center;
   justify-content:center;
+}
+
+.horizontalDistributed{
+
+}
+
+.icon-header{
+  width: 80px;
+  height: auto;
+  padding:1px;
+
 }
