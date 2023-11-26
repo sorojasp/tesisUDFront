@@ -1,9 +1,11 @@
 type Dataset={
     label: string,
+    XaxysData: string[],
     data: number[],
+    backgroundColor: string,
     fill: boolean,
     borderColor: string,
-    tension: number
+    borderWidth: number
   }
 
 

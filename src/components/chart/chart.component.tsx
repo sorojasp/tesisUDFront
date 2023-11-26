@@ -6,6 +6,20 @@ defaults.global.tooltips.enabled = true;// to appears popup with information for
 defaults.global.legend.position = 'top';
 
 
+type Dataset={
+  label: string,
+  data: number[],
+  fill: boolean,
+  borderColor: string,
+  tension: number
+}
+
+
+type Props={
+  datasets:Dataset[]
+  labels:string[],
+}
+
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'Jun', 'Jul', 'August'],
@@ -61,18 +75,20 @@ const config = {
 }
 
 
-const Chart = () => {
+const Chart = (props:Props) => {
 
 
 
   return (
     <>
-      <Line data={data}
-        height={400}
-        width={600}
-        options={config}
-
-      />
+      <div className="chart">
+        <Line data={{datasets:props.datasets,
+                      labels:props.labels}}
+          height={400}
+          width={600}
+          options={config}
+        />
+      </div>
 
     </>
   )
