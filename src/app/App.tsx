@@ -26,7 +26,6 @@ import dayjs, { Dayjs } from 'dayjs';
 
 
 
-const now:Dayjs = dayjs();
 
 
 function App() {
@@ -34,11 +33,11 @@ function App() {
 
   const [openLoading, setOpenLoading] = useState<boolean>(false);
   const [openDateFilter, setOpenDataFilter] = useState<boolean>(false);
-  const [startDate, setStartDate] = useState<Dayjs>(dayjs('2023-10-01'));
-  const [finalDate, setFinalDate] = useState<Dayjs>(dayjs());
+  const [startDate, setStartDate] = useState<string>(dayjs('2016-05-03 22:15:01').format('YYYY-MM-DDTH:mm:ss'));
+  const [finalDate, setFinalDate] = useState<string>(dayjs().format('YYYY-MM-DDTH:mm:ss'));
   const [searchConcentration, setSearchConcentration] = useState(false);
-  const [startDatePrint, setStartDatePrint] = useState<string>(now.subtract(7, 'days').toString());
-  const [finalDatePrint, setFinalDatePrint] = useState<string>(now.toString());
+  const [startDatePrint, setStartDatePrint] = useState<string>(dayjs().subtract(7, 'days').format('YYYY-MM-DDTH:mm:ss'));
+  const [finalDatePrint, setFinalDatePrint] = useState<string>(dayjs().format('YYYY-MM-DDTH:mm:ss'));
   const [concentrations, setConcentrations] = useState<{
     labels: string[],
     datasets: any[]
@@ -62,15 +61,16 @@ function App() {
      *  '2023-11-06T21:40:50', // now.format('YYYY-MM-DDTHH:mm:ss'),
      * 
      */
+
     
 
     FetchData(
-               now.subtract(7, 'days').format('YYYY-MM-DDThh:mm:ss'), 
-               now.format('YYYY-MM-DDThh:mm:ss'), 
-               setOpenLoading,
-               setSearchConcentration,
-               setConcentrations,
-               setConcentrationFil
+              dayjs().subtract(7, 'days').format('YYYY-MM-DDTH:mm:ss'), 
+              dayjs().format('YYYY-MM-DDTH:mm:ss'), 
+              setOpenLoading,
+              setSearchConcentration,
+              setConcentrations,
+              setConcentrationFil
                )
   }, [])
 
@@ -81,12 +81,12 @@ function App() {
 
       setSearchConcentration(false);
 
-      setStartDatePrint(startDate.toString())
-      setFinalDatePrint(finalDate.toString())
+      setStartDatePrint(startDate)
+      setFinalDatePrint(finalDate)
 
       FetchData(
-        startDate.format('YYYY-MM-DDThh:mm:ss'), 
-        finalDate.format('YYYY-MM-DDThh:mm:ss'), 
+        startDate, 
+        finalDate, 
         setOpenLoading,
         setSearchConcentration,
         setConcentrations,
@@ -129,8 +129,8 @@ function App() {
           labels={concentrationFiltered.labels} />
 
         <div className='row distributed datesAdversement'>
-          <p><p id="title">Fecha Inicial:</p> {startDatePrint}</p>
-          <p><p id="title">Fecha Final:</p> {finalDatePrint}</p>
+          <div><p id="title">Fecha Inicial:</p> {startDatePrint}</div>
+          <div><p id="title">Fecha Final:</p> {finalDatePrint}</div>
 
         </div>
 

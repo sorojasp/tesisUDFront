@@ -2,6 +2,7 @@
 import { useState } from 'react';
 
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 /**@Material UI */
 import Modal from '@mui/material/Modal';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -21,12 +22,14 @@ import '../../index.scss'
 
 
 const maxDate = dayjs();
-const minDate = dayjs('2023-08-20T02:30:32');
+const minDate = dayjs('2023-08-20T02:30:32');  //dayjs('2016-05-03 22:15:01').format('YYYY-MM-DDThh:mm:ss')
+
+
 
 type Props = {
-    startDate: Dayjs | null,
+    startDate: string,
     setStartDate: any,
-    finalDate: Dayjs | null,
+    finalDate: string,
     setFinalDate: any,
     setOpenDataFilter: any,
     setSearchConcentration:any
@@ -43,6 +46,9 @@ const FilerDate = ({
 
     const [showEndDate, setShowEndDate] = useState<boolean>(false);
     const [enableButton, setEnableButton] = useState<boolean>(false);
+    const [startDateS, setStartDateS] = useState<Dayjs|null>(null);
+    const [finalDateS, setFinalDateS] = useState<Dayjs|null>(null);
+
 
 
 
@@ -63,13 +69,14 @@ const FilerDate = ({
                             <DemoContainer components={['DateTimePicker']}
                                 sx={{ margin: '20px' }}>
                                 <DateTimePicker label="Fecha inicial"
+                                    ampm={false}
                                     maxDate={maxDate}
                                     minDate={minDate}
-                                    value={startDate}
+                                    value={startDateS}
                                     onChange={(newValue) => {
-                                        setStartDate(newValue);
+                                        setStartDateS(newValue == null ? null : newValue)
+                                        setStartDate(newValue == null ? 'null' : newValue.format('YYYY-MM-DDTH:mm:ss'));
                                         setShowEndDate(true);
-                                        console.log('start date selected')
                                     }}
 
                                 />
@@ -81,14 +88,17 @@ const FilerDate = ({
                                 components={['DateTimePicker']}
                                 sx={{ margin: '20px' }}>
                                 <DateTimePicker label="Fecha final"
+                                    ampm={false}
                                     maxDate={maxDate}
-                                    minDate={startDate}
-                                    value={finalDate}
+                                    minDate={startDateS}
+                                    value={finalDateS}
                                     onChange={ 
                                         (newValue) => {
-                                            setFinalDate(newValue);
+                                            setFinalDateS(newValue == null ? null : newValue)
+                                            setFinalDate(newValue == null ? 'null' : newValue.format('YYYY-MM-DDTH:mm:ss'));
                                             setShowEndDate(true);
                                             setEnableButton(true);
+
                                         }
                                     }
                                 />

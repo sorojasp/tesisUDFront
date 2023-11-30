@@ -37,8 +37,8 @@ const handleResolution =(
       labels: pieceOfData(parseInt(resolution.toString()), concentrations.labels)
     });
 
-    console.log("concentrations:", concentrations)
-    console.log("concentrations Fil:", concentrationFiltered)
+    //console.log("concentrations:", concentrations)
+    //console.log("concentrations Fil:", concentrationFiltered)
 
 
 

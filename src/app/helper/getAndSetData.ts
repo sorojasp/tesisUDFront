@@ -44,7 +44,7 @@ const getAndSetData = async ({ setOpenLoading, url, endPoint, startDate, endDate
       endPoint);
     setOpenLoading(false);
 
-    console.log('pollutanData["data"]:', pollutanData['data']['data'])
+    //console.log('pollutanData["data"]:', pollutanData['data']['data'])
 
     let dataFiltered = pollutanData['data']['data'];
 

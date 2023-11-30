@@ -8,7 +8,7 @@ const pieceOfData=(percentage:number, data:any[] )=>{
     //console.log("n/nPercentage: ", n/nPercentage)
     const steps= Math.floor(n/nPercentage);
 
-    console.log("steps: ", steps)
+    //console.log("steps: ", steps)
 
     let newArray=[]
 
