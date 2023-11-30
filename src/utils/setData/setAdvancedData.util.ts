@@ -65,6 +65,8 @@ const settingsDatasetAdvanced = (data:[],
   
   
     */
+
+    xVariable
   
     let nodesGassesombinatorics:any = combinatoricsFnc(nodes, variablesToChart);
     //let nodesXvariablesCombinatorics = combinatoricsFnc(nodes, [xVariable]);
@@ -116,7 +118,9 @@ const settingsDatasetAdvanced = (data:[],
   
   
   
-    nodesGassesombinatorics.map((element:any, index:number) => {
+    nodesGassesombinatorics.map((element:unknown, index:number) => {
+
+      element
   
       datasets[index]['backgroundColor'] = colors['colorsTransparent1'][index];
       datasets[index]['borderColor'] = colors['colorsTransparent2'][index];

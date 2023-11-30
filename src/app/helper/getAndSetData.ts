@@ -19,10 +19,10 @@ type Props = {
 }
 
 
-const getAndSetData = async ({ setOpenLoading, url, endPoint, startDate, endDate }: Props):Promise<{
-  data:any,
-  detail:string,
-  result:boolean
+const getAndSetData = async ({ setOpenLoading, url, endPoint, startDate, endDate }: Props): Promise<{
+  data: any,
+  detail: string,
+  result: boolean
 }> => {
 
   let result: {
@@ -48,9 +48,9 @@ const getAndSetData = async ({ setOpenLoading, url, endPoint, startDate, endDate
 
     let dataFiltered = pollutanData['data']['data'];
 
-    if (pointsNumberToDraw<=pollutanData['data']['data'].length){
+    if (pointsNumberToDraw <= pollutanData['data']['data'].length) {
 
-      dataFiltered =  pieceOfData(((pointsNumberToDraw/pollutanData['data']['data'].length)*100),pollutanData['data']['data']);
+      dataFiltered = pieceOfData(((pointsNumberToDraw / pollutanData['data']['data'].length) * 100), pollutanData['data']['data']);
 
     }
 
@@ -62,10 +62,10 @@ const getAndSetData = async ({ setOpenLoading, url, endPoint, startDate, endDate
     dataToChart = putSortedDataInDatasets(dataToChart, dataSameTimeline)
     dataToChart = JSON.parse(JSON.stringify(dataToChart));// decouple the data
 
-    result={
-      detail:'Consulta exitosa',
+    result = {
+      detail: 'Consulta exitosa',
       data: dataToChart,
-      result:true
+      result: true
     }
 
 
@@ -73,10 +73,10 @@ const getAndSetData = async ({ setOpenLoading, url, endPoint, startDate, endDate
 
   catch (err) {
 
-    result={
-      detail:'Error inesperado',
-      data:null,
-      result:false
+    result = {
+      detail: 'Error inesperado',
+      data: null,
+      result: false
     }
 
   }

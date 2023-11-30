@@ -18,8 +18,8 @@ type Props = {
 
 const Loading = ({ openL }: Props) => {
 
-    const [open, setOpen] = useState(openL);
-    const handleClose = () => setOpen(false);
+    const [open] = useState(openL);
+    //const handleClose = () => setOpen(false);
 
 
 
@@ -27,7 +27,7 @@ const Loading = ({ openL }: Props) => {
         <Modal
             sx={styles}
             open={open}
-            onClose={handleClose}
+            //onClose={handleClose}
         >
             <div className="verticalElements">
                 <CircularProgress sx={{ color: 'white' }} />

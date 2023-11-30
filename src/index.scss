@@ -14,12 +14,19 @@ body {
 
 .vertical{
   display:flex;
-  flex-direction: columnn;
+  flex-direction: column;
 }
 
 .distributed{
 
     justify-content: space-between;
+    align-items: center;
+
+}
+
+.central{
+
+    justify-content: center;
     align-items: center;
 
 }

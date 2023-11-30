@@ -1,37 +1,47 @@
 import Slider from '@mui/material/Slider';
+/**styles */
 
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-
-const today = dayjs();
-const tomorrow = dayjs().add(1, 'day');
+import './filter.style.scss'
 
 
-const Filter = () => {
+
+
+type Props = {
+    resolution: number,
+    setResolution: any,
+
+}
+
+const Filter = ({ resolution,
+    setResolution,
+}: Props) => {
+
+
+
+    const handleSliderChange = (event:unknown, newValue: number | number[]) => {
+        event
+        setResolution(newValue as number);
+
+    };
+
 
 
 
 
     return (
         <>
-            <h3>Filter Component</h3>
 
-            <p>Resolución</p>
-            <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']}>
-                    <DateTimePicker label="Fecha inicial" />
-                </DemoContainer>
-            </LocalizationProvider>
+            <div className='filter'>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DateTimePicker']}>
-                    <DateTimePicker label="Fecha final" maxDate={tomorrow}   minDate={today}   />
-                </DemoContainer>
-            </LocalizationProvider>
+                <p>Resolución {resolution} %</p>
+                <Slider defaultValue={50}
+                    onChange={handleSliderChange}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                    value={resolution} />
+
+            </div>
+
         </>
 
     )

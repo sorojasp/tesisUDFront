@@ -11,7 +11,8 @@ type Dataset={
 
 
 const putSortedDataInDatasets = (dataToChart: {
-    datasets: Dataset[]
+    datasets: Dataset[],
+    xAxysData?:unknown,
 }, dataSameTimelineFnc: any) => {
   /**
  *@Description: this function put the sorted and fixed data to datasets
@@ -94,7 +95,7 @@ const getArray = (arrayAmount:number, content:any) => {
 
   // add the dates to the dataToChart
   dataToChart['xAxysData'] = {
-    'data': sortedData['totalDatesSort'].map((date:any) => {
+    'data': sortedData['totalDatesSort'].map((date:Date) => {
 
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 

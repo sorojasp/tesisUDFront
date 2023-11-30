@@ -11,13 +11,7 @@ import Nose from '../../assets/nose.png';
 /**@styles */
 import './styles.scss'
 
-type Props={
 
-    center:string;
-    zoom:number;
-    markers:Array<[]>;
-    urlMarkerIcon:string
-}
 
 
 const Map = () => {

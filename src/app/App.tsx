@@ -2,44 +2,58 @@ import { useState, useEffect } from 'react'
 import './App.scss'
 
 /**@components */
-import { Header } from '../components/header/index'
-import { Map } from '../components/map/index'
-import { Chart } from '../components/chart/index'
-import { Filter } from '../components/filter/indext'
-import { Loading } from '../components/loading'
+import { Header } from '../components/header/index';
+import { Map } from '../components/map/index';
+import { Chart } from '../components/chart/index';
+import { Filter } from '../components/filter/indext';
+import { Loading } from '../components/loading';
+import {FilerDate} from '../components/filterDate'
 
 /**@Material */
 import Button from '@mui/material/Button';
 
 /**@utilites */
-import getAndSetData from './helper/getAndSetData';
+
+import FetchData from './helper/fetchConcentrations'
+import handleResolution from './helper/handleResolution'
+import pieceOfData from '../utils/graphicData/dataResolution.util';
 
 
 /**@libraries */
-import swal from 'sweetalert';
-import dayjs from 'dayjs';
+//import swal from 'sweetalert';
+import dayjs, { Dayjs } from 'dayjs';
 
 
-//let url='http://127.0.0.1:5000/'
-let url = `https://odor-sr7.herokuapp.com/`;
-const endPoint = `gasConcentrations`;
-const now = dayjs();
+
+
+const now:Dayjs = dayjs();
 
 
 function App() {
 
 
   const [openLoading, setOpenLoading] = useState<boolean>(false);
-  const [startDate, setStartDate] = useState<string>('');
-  const [finalDate, setFinalDate] = useState<string>('');
-  const [dataResolution, setDataResolution] = useState<number>(0);
-  const [concentrations, setConcentrations] = useState<{labels:string[],
-                                                        datasets:any[]
-                                                      }>({
-                                                        labels:[],
-                                                        datasets:[]
-                                                      })
-  const [conFilts, setConFilts] = useState<Array<number>>([0])
+  const [openDateFilter, setOpenDataFilter] = useState<boolean>(false);
+  const [startDate, setStartDate] = useState<Dayjs>(dayjs('2023-10-01'));
+  const [finalDate, setFinalDate] = useState<Dayjs>(dayjs());
+  const [searchConcentration, setSearchConcentration] = useState(false);
+  const [startDatePrint, setStartDatePrint] = useState<string>(now.subtract(7, 'days').toString());
+  const [finalDatePrint, setFinalDatePrint] = useState<string>(now.toString());
+  const [concentrations, setConcentrations] = useState<{
+    labels: string[],
+    datasets: any[]
+  }>({
+    labels: [],
+    datasets: []
+  })
+  const [concentrationFiltered, setConcentrationFil] = useState<{
+    labels: string[],
+    datasets: any[]
+  }>({
+    labels: [],
+    datasets: []
+  })
+  const [resolution, setResolution] = useState<number>(100)
 
   useEffect(() => {
 
@@ -48,61 +62,58 @@ function App() {
      *  '2023-11-06T21:40:50', // now.format('YYYY-MM-DDTHH:mm:ss'),
      * 
      */
+    
 
-    const FetchData = async () => {
-
-
-      const resultFetch = await  getAndSetData({
-        setOpenLoading,
-        url,
-        endPoint,
-        startDate:  now.subtract(2, 'hours').format('YYYY-MM-DDTHH:mm:ss').toString(),
-        endDate: now.format('YYYY-MM-DDTHH:mm:ss').toString()
-      })
-
-      
-
-      setConcentrations({
-        datasets:resultFetch.data['datasets'],
-        labels:resultFetch.data['xAxysData']['data']
-      })
-
- 
-
-    }
-
-    FetchData()
-
-
+    FetchData(
+               now.subtract(7, 'days').format('YYYY-MM-DDThh:mm:ss'), 
+               now.format('YYYY-MM-DDThh:mm:ss'), 
+               setOpenLoading,
+               setSearchConcentration,
+               setConcentrations,
+               setConcentrationFil
+               )
   }, [])
 
 
+  useEffect(()=>{
+
+    if(searchConcentration===true){
+
+      setSearchConcentration(false);
+
+      setStartDatePrint(startDate.toString())
+      setFinalDatePrint(finalDate.toString())
+
+      FetchData(
+        startDate.format('YYYY-MM-DDThh:mm:ss'), 
+        finalDate.format('YYYY-MM-DDThh:mm:ss'), 
+        setOpenLoading,
+        setSearchConcentration,
+        setConcentrations,
+        setConcentrationFil
+        )
+
+        
+
+      
+    }
+  },[searchConcentration])
+
+
   useEffect(() => {
 
-  }, [startDate])
-
-  useEffect(() => {
-
-  }, [finalDate])
-
-  useEffect(() => {
-
-  }, [dataResolution])
+    handleResolution( 
+       pieceOfData,
+      concentrations,
+      resolution,
+      concentrationFiltered,
+      setConcentrationFil)
 
 
-  const handleOpenLoading = () => {
-    setOpenLoading(true);
+  }, [resolution])
 
-  
 
-    setTimeout(() => {
 
-      setOpenLoading(false);
-
-      //swal("Hello world!");
-    }, 300)
-
-  }
 
   return (
     <>
@@ -112,20 +123,42 @@ function App() {
       <div className="container">
 
         <Map />
-        <Chart datasets={concentrations.datasets} 
-               labels={concentrations.labels}/>
-        <Filter></Filter>
+        
+        <Chart 
+          datasets={concentrationFiltered.datasets}
+          labels={concentrationFiltered.labels} />
 
-        <Button onClick={handleOpenLoading}
+        <div className='row distributed datesAdversement'>
+          <p><p id="title">Fecha Inicial:</p> {startDatePrint}</p>
+          <p><p id="title">Fecha Final:</p> {finalDatePrint}</p>
+
+        </div>
+
+        
+        <Filter
+          resolution={resolution}
+          setResolution={setResolution}
+
+        ></Filter>
+
+        <Button 
+          className='searchButton'
+          onClick={()=>{setOpenDataFilter(true)}}
           variant="outlined"
-          size="medium"
-        >
-          Open modal
+          size="medium">
+            Nueva busqueda
         </Button>
+        
+        {openLoading && <Loading openL={openLoading}/>}
 
-        {openLoading && <Loading
-          openL={openLoading}
-        ></Loading>}
+        {openDateFilter && <FilerDate
+          startDate={startDate}
+          setStartDate={setStartDate}
+          finalDate={finalDate}
+          setFinalDate={setFinalDate}
+          setOpenDataFilter={setOpenDataFilter}
+          setSearchConcentration={setSearchConcentration}
+        />}
 
 
       </div>
